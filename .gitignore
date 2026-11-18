@@ -12,3 +12,7 @@ wheels/
 # Downloaded podcast audio
 audio/
 audio_pytubefix/
+
+# Diarization models and generated results
+/data/models/
+/outputs/

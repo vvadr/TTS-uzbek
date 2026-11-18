@@ -8,3 +8,7 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Downloaded podcast audio
+audio/
+audio_pytubefix/

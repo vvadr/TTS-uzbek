@@ -8,6 +8,7 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "pytubefix>=11.2.1",
     "yt-dlp>=2026.10.26",
 ]
 

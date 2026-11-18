@@ -9,10 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
-# Downloaded podcast audio
-audio/
-audio_pytubefix/
+# Downloaded and converted audio, and source videos
+/data/raw_audios/
+/data/videos/
 
-# Diarization models and generated results
-/data/models/
+# Generated diarization results
 /outputs/

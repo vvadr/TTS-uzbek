@@ -6,18 +6,30 @@ Install the dependencies and use the project `.venv` as the notebook kernel:
 uv sync
 ```
 
-The project uses Python 3.12 or newer. The download and video conversion notebooks also require `ffmpeg` on your PATH.
+The project uses Python 3.12 or newer. Steps 1, 2 and 4 also need `ffmpeg` on your PATH.
 
-## Notebooks
+## Notebooks (run in this order)
 
-- `src/data_preprocessing/data_collection.ipynb`: download audio with yt-dlp using links from `data/podcasts.md`.
-- `src/data_preprocessing/pytubefix.ipynb`: alternative downloader using PytubeFix.
-- `src/data_preprocessing/video_to_audio.ipynb`: convert videos in `data/videos` to WAV files in `data/raw_audios`.
-- `src/data_preprocessing/diarisation.ipynb`: inspect audio and experiment with Silero voice activity detection.
-- `src/data_preprocessing/nemo_diarisation.ipynb`: identify who spoke when with NVIDIA NeMo.
+All notebooks are in `src/data_preprocessing/`. Every step reads and writes audio in `data/raw_audios/`, so the output of one step is the input of the next.
 
-For the NeMo notebook, set `audio_path` and optionally `num_speakers`, then run the cells in order. It creates a separate 16 kHz mono copy, prepares a manifest, and runs MarbleNet VAD, multiscale speaker embeddings, clustering, and MSDD refinement. The original audio is preserved. The result is an RTTM file with anonymous speaker labels and timestamps; it is not a transcript.
+| Step | Notebook | What it does |
+|---|---|---|
+| 1a | `01a_download_audio_ytdlp.ipynb` | Download the audio of every link in `data/podcasts.md` as WAV. |
+| 1b | `01b_download_audio_pytubefix.ipynb` | Alternative downloader. Use it only if 1a fails. |
+| 2 | `02_video_to_audio.ipynb` | Optional: convert videos in `data/videos/` to WAV. |
+| 3 | `03_voice_activity_silero.ipynb` | Listen to one file, plot it and mark where there is speech (Silero VAD). |
+| 4 | `04_speaker_diarization_nemo.ipynb` | Find who spoke when (NVIDIA Nemotron-3-Diarization). |
 
-NeMo's pretrained models are downloaded on first use to `data/models/nemo`. Each run saves its prepared WAV, manifest, intermediate files, and RTTM under a new folder in `outputs/diarization/`. These generated files are ignored by Git. The supplied configuration is NVIDIA's telephonic example, so podcast recordings may need VAD tuning and results should be checked by listening. The notebook defaults to CPU; it can be slow on long recordings.
+To get audio, use step 1 (download), step 2 (local videos), or put WAV files into `data/raw_audios/` yourself. Steps 3 and 4 list the files in that folder; change the number in `wavs[0]` to pick one.
 
-The yt-dlp downloader may use Node.js and fetch yt-dlp's EJS component from GitHub. If YouTube asks you to sign in, sign in in your browser and set `cookies_from_browser = "chrome"` (or `"firefox"`) in the last cell. YouTube can still reject the request.
+### Downloading (steps 1a and 1b)
+
+Steps 1a and 1b skip links that were already downloaded, so you can run them again after failures. yt-dlp may use Node.js and fetch yt-dlp's EJS component from GitHub. If YouTube asks you to sign in, sign in to YouTube in your browser and set `cookies_from_browser` to `"chrome"`, `"firefox"` or `"safari"`. YouTube can still reject the request, and PytubeFix may be blocked as a bot.
+
+### Speaker diarization (step 4)
+
+The notebook makes a 16 kHz mono copy (the original is not changed) and runs one model, Nemotron-3-Diarization, which finds up to 8 speakers. The result is an RTTM file with anonymous speaker labels and timestamps, plus talk time per speaker and a timeline plot. It is not a transcript. Set `TEST_MINUTES` to try only the start of a long recording.
+
+The model (about 190 MB) is downloaded from Hugging Face on first use into the shared Hugging Face cache, `~/.cache/huggingface/hub`. Results go to `outputs/diarization/<file name>/nemotron/`; running the same file again overwrites them. It runs on CPU and is fast: about a second for a one-minute clip on an M-series Mac. Check the labels by listening, because a few very short turns can show up as an extra speaker. If you upgrade NeMo, restart the notebook kernel before running it again.
+
+Downloaded audio, videos and results are ignored by Git.

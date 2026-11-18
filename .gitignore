@@ -12,6 +12,3 @@ wheels/
 # Downloaded and converted audio, and source videos
 /data/raw_audios/
 /data/videos/
-
-# Generated diarization results
-/outputs/

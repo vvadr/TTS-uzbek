@@ -6,6 +6,10 @@ dist/
 wheels/
 *.egg-info
 
+# Local system files and installers
+.DS_Store
+*.dmg
+
 # Virtual environments
 .venv
 

@@ -13,6 +13,7 @@ dependencies = [
     "nemo-toolkit[asr] @ git+https://github.com/NVIDIA/NeMo.git@f47ddde246380a250bd868b51b4a7f3a2f3770f3",
     "numpy>=2.5.5",
     "pytubefix>=11.2.1",
+    "silero-vad>=6.2.3",
     "soundfile>=0.14.0",
     "torch>=2.15.0",
     "torchaudio>=2.11.1",

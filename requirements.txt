@@ -351,6 +351,7 @@ packaging==24.2 ; sys_platform == 'darwin' or sys_platform == 'linux'
     #   nemo-toolkit
     #   pooch
     #   pytorch-lightning
+    #   silero-vad
     #   tensorboard
     #   torchmetrics
     #   transformers
@@ -476,6 +477,8 @@ setuptools==84.2.1 ; sys_platform == 'darwin' or sys_platform == 'linux'
     #   nemo-toolkit
     #   tensorboard
     #   torch
+silero-vad==6.2.3 ; sys_platform == 'darwin' or sys_platform == 'linux'
+    # via tts
 smart-open==9.0.4 ; sys_platform == 'darwin' or sys_platform == 'linux'
     # via nemo-toolkit
 sniffio==1.3.1 ; sys_platform == 'darwin' or sys_platform == 'linux'
@@ -532,6 +535,7 @@ torch==2.15.0 ; sys_platform == 'darwin' or sys_platform == 'linux'
     #   lightning
     #   nemo-toolkit
     #   pytorch-lightning
+    #   silero-vad
     #   torchaudio
     #   torchmetrics
     #   tts

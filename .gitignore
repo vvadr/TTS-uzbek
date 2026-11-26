@@ -12,11 +12,14 @@ wheels/
 
 # Virtual environments
 .venv
+.venv-denoise
 
 # Downloaded and converted audio, and source videos
 /data/raw_audios/
 /data/podcasts/
 /data/videos/
 /dataset
+/dataset_clean
+/runs
 /outputs
 *wav
